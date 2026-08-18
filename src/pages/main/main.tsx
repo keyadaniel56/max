@@ -44,6 +44,8 @@ import Dashboard from '../dashboard';
 import RunStrategy from '../dashboard/run-strategy';
 import './main.scss';
 
+const FreeBotsPanel = React.lazy(() => import('../bot-builder/free-bots/free-bots-panel'));
+
 const ChartWrapper = lazy(() => import('../chart/chart-wrapper'));
 const Tutorial = lazy(() => import('../tutorials'));
 
@@ -72,6 +74,7 @@ const AppWrapper = observer(() => {
         stopBot,
     } = run_panel;
     const { is_open } = quick_strategy;
+    const { setFreeBotsVisibility, show_free_bots } = quick_strategy;
     const { cancel_button_text, ok_button_text, title, message, dismissable, is_closed_on_cancel } = dialog_options as {
         [key: string]: string;
     };
@@ -343,6 +346,10 @@ const AppWrapper = observer(() => {
 
     const handleTabChange = React.useCallback(
         (tab_index: number) => {
+            if (tab_index === 4) {
+                setFreeBotsVisibility(true);
+                return;
+            }
             setActiveTab(tab_index);
             const el_id = TAB_IDS[tab_index];
             if (el_id) {
@@ -452,6 +459,15 @@ const AppWrapper = observer(() => {
                                     </Suspense>
                                 </div>
                             </div>
+                            <div
+                                label={
+                                    <>
+                                        <i className='fa-solid fa-robot' style={{ fontSize: '18px' }} />
+                                        <Localize i18n_default_text='Free Bots' />
+                                    </>
+                                }
+                                id='id-free-bots'
+                            />
                         </Tabs>
                         {!isDesktop && right_tab_shadow && <span className='tabs-shadow tabs-shadow--right' />}{' '}
                     </div>
@@ -499,6 +515,11 @@ const AppWrapper = observer(() => {
                     />
                 );
             })()}
+            {show_free_bots && (
+                <Suspense fallback={null}>
+                    <FreeBotsPanel onClose={() => setFreeBotsVisibility(false)} />
+                </Suspense>
+            )}
         </React.Fragment>
     );
 });
