@@ -30,7 +30,7 @@ const Toolbox = observer(() => {
         toolbox_dom,
     } = toolbox;
 
-    const { setFormVisibility } = quick_strategy;
+    const { setFormVisibility, setFreeBotsVisibility } = quick_strategy;
     const { setVisibility, selected_category } = flyout;
 
     const toolbox_ref = React.useRef(ToolboxItems());
@@ -49,6 +49,10 @@ const Toolbox = observer(() => {
         /* [/AI] */
     };
 
+    const handleFreeBotsOpen = () => {
+        setFreeBotsVisibility(true);
+    };
+
     if (isDesktop) {
         return (
             <div className='db-toolbox' data-testid='dashboard__toolbox'>
@@ -58,6 +62,13 @@ const Toolbox = observer(() => {
                     button_classname='toolbar__btn toolbar__btn--icon toolbar__btn--start'
                     buttonOnClick={handleQuickStrategyOpen}
                     button_text={localize('Quick strategy')}
+                />
+                <ToolbarButton
+                    popover_message={localize('Load a free pre-built bot into the workspace.')}
+                    button_id='db-toolbar__free-bots-button'
+                    button_classname='toolbar__btn toolbar__btn--icon toolbar__btn--start'
+                    buttonOnClick={handleFreeBotsOpen}
+                    button_text={localize('Free bots')}
                 />
                 <div id='gtm-toolbox' className='db-toolbox__content'>
                     <div className='db-toolbox__header'>

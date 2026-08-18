@@ -25,9 +25,6 @@ const LandingHeader = () => {
                     <a href="#features" className="lp-header__link">
                         Features
                     </a>
-                    <a href="#free-bots" className="lp-header__link">
-                        Free Bots
-                    </a>
                     <a href="#process" className="lp-header__link">
                         How It Works
                     </a>

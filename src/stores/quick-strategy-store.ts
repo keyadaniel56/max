@@ -52,6 +52,7 @@ interface IQuickStrategyStore {
 export default class QuickStrategyStore implements IQuickStrategyStore {
     root_store: RootStore;
     is_open = false;
+    show_free_bots = false;
     selected_strategy = 'MARTINGALE';
     selected_strategy_for_notofy = '';
     form_data: TFormData = {
@@ -79,6 +80,7 @@ export default class QuickStrategyStore implements IQuickStrategyStore {
             form_data: observable,
             is_contract_dialog_open: observable,
             is_open: observable,
+            show_free_bots: observable,
             is_stop_bot_dialog_open: observable,
             is_options_loading: observable,
             initializeLossThresholdWarningData: action,
@@ -89,6 +91,7 @@ export default class QuickStrategyStore implements IQuickStrategyStore {
             setAdditionalData: action,
             setCurrentDurationMinMax: action,
             setFormVisibility: action,
+            setFreeBotsVisibility: action,
             setSelectedStrategy: action,
             setLossThresholdWarningData: action,
             setValue: action,
@@ -136,6 +139,10 @@ export default class QuickStrategyStore implements IQuickStrategyStore {
 
     setFormVisibility = (is_open: boolean) => {
         this.is_open = is_open;
+    };
+
+    setFreeBotsVisibility = (show: boolean) => {
+        this.show_free_bots = show;
     };
 
     setSelectedStrategy = (strategy: string) => {

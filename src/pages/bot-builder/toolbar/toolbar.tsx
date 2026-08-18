@@ -15,7 +15,7 @@ const Toolbar = observer(() => {
     const { isDesktop } = useDevice();
     const { is_dialog_open, closeResetDialog, onResetOkButtonClick: onOkButtonClick } = toolbar;
     const { is_running } = run_panel;
-    const { setFormVisibility } = quick_strategy;
+    const { setFormVisibility, setFreeBotsVisibility } = quick_strategy;
     const confirm_button_text = is_running ? localize('Yes') : localize('OK');
     const cancel_button_text = is_running ? localize('No') : localize('Cancel');
     const handleQuickStrategyOpen = () => {
@@ -23,19 +23,32 @@ const Toolbar = observer(() => {
         /* [AI] - Analytics event tracking removed - see migrate-docs/MONITORING_PACKAGES.md for re-implementation guide */
         /* [/AI] */
     };
+    const handleFreeBotsOpen = () => {
+        setFreeBotsVisibility(true);
+    };
     return (
         <React.Fragment>
             <div className='toolbar dashboard__toolbar' data-testid='dt_dashboard_toolbar'>
                 <div className='toolbar__section'>
                     {!isDesktop && (
-                        <ToolbarButton
-                            popover_message={localize('Click here to start building your Deriv Bot.')}
-                            button_id='db-toolbar__get-started-button'
-                            button_classname='toolbar__btn toolbar__btn--icon toolbar__btn--start'
-                            buttonOnClick={handleQuickStrategyOpen}
-                            button_text={localize('Quick strategy')}
-                            is_bot_running={is_running}
-                        />
+                        <>
+                            <ToolbarButton
+                                popover_message={localize('Click here to start building your Deriv Bot.')}
+                                button_id='db-toolbar__get-started-button'
+                                button_classname='toolbar__btn toolbar__btn--icon toolbar__btn--start'
+                                buttonOnClick={handleQuickStrategyOpen}
+                                button_text={localize('Quick strategy')}
+                                is_bot_running={is_running}
+                            />
+                            <ToolbarButton
+                                popover_message={localize('Load a free pre-built bot.')}
+                                button_id='db-toolbar__free-bots-button'
+                                button_classname='toolbar__btn toolbar__btn--icon toolbar__btn--start'
+                                buttonOnClick={handleFreeBotsOpen}
+                                button_text={localize('Free bots')}
+                                is_bot_running={is_running}
+                            />
+                        </>
                     )}
                     {isDesktop && <WorkspaceGroup />}
                 </div>
