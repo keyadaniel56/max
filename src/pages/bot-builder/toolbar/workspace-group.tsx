@@ -20,11 +20,12 @@ import { useDevice } from '@deriv-com/ui';
 import ToolbarIcon from './toolbar-icon';
 
 const WorkspaceGroup = observer(() => {
-    const { dashboard, toolbar, load_modal, save_modal } = useStore();
+    const { dashboard, toolbar, load_modal, save_modal, quick_strategy } = useStore();
     const { setPreviewOnPopup, setChartModalVisibility, setTradingViewModalVisibility } = dashboard;
     const { has_redo_stack, has_undo_stack, onResetClick, onSortClick, onUndoClick, onZoomInOutClick } = toolbar;
     const { toggleSaveModal } = save_modal;
     const { toggleLoadModal } = load_modal;
+    const { setFreeBotsVisibility } = quick_strategy;
     const { isDesktop } = useDevice();
 
     return (
@@ -58,6 +59,18 @@ const WorkspaceGroup = observer(() => {
                             }}
                         >
                             <LabelPairedFolderOpenMdRegularIcon />
+                        </span>
+                    }
+                />
+                <ToolbarIcon
+                    popover_message={localize('Free bots')}
+                    icon={
+                        <span
+                            className='toolbar__icon'
+                            id='db-toolbar__free-bots-button'
+                            onClick={() => setFreeBotsVisibility(true)}
+                        >
+                            <i className='fa-solid fa-robot' />
                         </span>
                     }
                 />
