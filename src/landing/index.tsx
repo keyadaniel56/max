@@ -1,10 +1,41 @@
 import { useCallback } from "react";
+import localForage from "localforage";
+import LZString from "lz-string";
 import LandingHeader from "./landing-header";
 import LandingFooter from "./landing-footer";
 import { generateOAuthURL } from "../components/shared/utils/config";
+import masterBotV6 from "../xml/master_bot_v6.xml";
 import "./landing.scss";
 
 const LandingPage = () => {
+    const handleLoadBot = useCallback(async (xmlString: string, botName: string) => {
+        const workspaceId = `bot_${Date.now()}`;
+        const workspace = {
+            id: workspaceId,
+            timestamp: Date.now(),
+            name: botName,
+            xml: xmlString,
+            save_type: "unsaved",
+        };
+
+        const existingRaw = await localForage.getItem("saved_workspaces");
+        let existing: typeof workspace[] = [];
+        try {
+            existing = JSON.parse(LZString.decompress(existingRaw as string)) || [];
+        } catch {
+            existing = [];
+        }
+        existing.unshift(workspace);
+        if (existing.length > 10) existing.pop();
+
+        await localForage.setItem(
+            "saved_workspaces",
+            LZString.compress(JSON.stringify(existing))
+        );
+
+        window.location.href = "/botbuilder";
+    }, []);
+
     const handleLogin = useCallback(async () => {
         const url = await generateOAuthURL();
         if (url) window.location.replace(url);
@@ -186,6 +217,53 @@ const LandingPage = () => {
                                     Built-in stop loss, take profit, and loss control. Protect your
                                     capital and lock in profits automatically on every trade.
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Free Bots */}
+                <section className="lp__free-bots" id="free-bots">
+                    <div className="lp__container">
+                        <span className="lp__section-tag">Free Bots</span>
+                        <h2 className="lp__section-title">Ready-to-trade bots</h2>
+                        <p className="lp__section-desc">
+                            Load a pre-built bot directly into the builder and start trading instantly.
+                            No setup needed — just click and run.
+                        </p>
+                        <div className="lp__bots-grid">
+                            <div className="lp__bot-card">
+                                <div className="lp__bot-card-glow" />
+                                <div className="lp__bot-card-inner">
+                                    <div className="lp__bot-badge">Free</div>
+                                    <div className="lp__bot-icon">
+                                        <i className="fa-solid fa-robot" />
+                                    </div>
+                                    <h3 className="lp__bot-title">Master Bot V6</h3>
+                                    <p className="lp__bot-desc">
+                                        Advanced over/under digit trading bot with martingale stake management,
+                                        trend detection, configurable stop loss, and automatic trade rotation.
+                                    </p>
+                                    <div className="lp__bot-tags">
+                                        <span className="lp__bot-tag">Digits</span>
+                                        <span className="lp__bot-tag">Martingale</span>
+                                        <span className="lp__bot-tag">Synthetic Index</span>
+                                    </div>
+                                    <ul className="lp__bot-features">
+                                        <li><i className="fa-solid fa-check" /> Over/Under 1HZ75V</li>
+                                        <li><i className="fa-solid fa-check" /> Auto stake adjustment</li>
+                                        <li><i className="fa-solid fa-check" /> Trend detection</li>
+                                        <li><i className="fa-solid fa-check" /> Stop loss &amp; win target</li>
+                                    </ul>
+                                    <button
+                                        type="button"
+                                        className="lp__btn lp__btn--primary lp__btn--full"
+                                        onClick={() => handleLoadBot(masterBotV6, "Master Bot V6")}
+                                    >
+                                        Load to Bot Builder{" "}
+                                        <i className="fa-solid fa-arrow-right" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

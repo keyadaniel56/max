@@ -758,6 +758,149 @@ $slide-count: 5;
     }
 }
 
+// ── Free Bots ─────────────────────────────────────────────
+.lp__free-bots {
+    padding: 96px 0;
+    background:
+        radial-gradient(ellipse 50% 40% at 50% 0%, rgba($violet, 0.08), transparent),
+        $bg;
+}
+
+.lp__bots-grid {
+    max-width: 480px;
+    margin: 48px auto 0;
+    display: grid;
+    gap: 32px;
+}
+
+.lp__bot-card {
+    position: relative;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, $violet, $indigo, $blue);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 48px rgba($violet, 0.25);
+
+        .lp__bot-card-glow {
+            opacity: 1;
+        }
+    }
+}
+
+.lp__bot-card-glow {
+    position: absolute;
+    inset: -1px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, $violet-light, $blue, $violet);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+    filter: blur(12px);
+}
+
+.lp__bot-card-inner {
+    position: relative;
+    z-index: 1;
+    background: $bg-card;
+    border-radius: 18px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.lp__bot-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba($emerald, 0.15);
+    color: $emerald;
+    border: 1px solid rgba($emerald, 0.3);
+}
+
+.lp__bot-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba($violet, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    i {
+        font-size: 1.75rem;
+        color: $violet-light;
+    }
+}
+
+.lp__bot-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: $text;
+    margin-bottom: 10px;
+}
+
+.lp__bot-desc {
+    font-size: 0.925rem;
+    color: $text-dim;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.lp__bot-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.lp__bot-tag {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    background: rgba($violet, 0.1);
+    color: $violet-light;
+    border: 1px solid rgba($violet, 0.2);
+}
+
+.lp__bot-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    width: 100%;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        font-size: 0.875rem;
+        color: $text-dim;
+        border-bottom: 1px solid rgba($border, 0.5);
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        i {
+            color: $emerald;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+    }
+}
+
 // ── Testimonials ───────────────────────────────────────────
 .lp__testimonials {
     padding: 96px 0;
