@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import ReactDOM from "react-dom";
 import { load } from "@/external/bot-skeleton";
 import { save_types } from "@/external/bot-skeleton/constants";
 import masterBotV6 from "@/xml/master_bot_v6.xml";
@@ -38,6 +39,7 @@ type TFreeBotsPanelProps = {
 
 const FreeBotsPanel = ({ onClose }: TFreeBotsPanelProps) => {
     const [loading, setLoading] = useState(false);
+    const modal_root = document.getElementById("modal_root");
 
     const handleLoadBot = useCallback(
         async (bot: TFreeBot) => {
@@ -64,12 +66,12 @@ const FreeBotsPanel = ({ onClose }: TFreeBotsPanelProps) => {
         [onClose]
     );
 
-    return (
+    const panel = (
         <div className="fb-overlay" onClick={onClose}>
             <div className="fb-panel" onClick={(e) => e.stopPropagation()}>
                 <div className="fb-panel__header">
                     <div className="fb-panel__header-left">
-                        <i className="fa-solid fa-bots" />
+                        <i className="fa-solid fa-robot" />
                         <h2>Free Bots</h2>
                     </div>
                     <button
@@ -134,6 +136,9 @@ const FreeBotsPanel = ({ onClose }: TFreeBotsPanelProps) => {
             </div>
         </div>
     );
+
+    if (modal_root) return ReactDOM.createPortal(panel, modal_root);
+    return panel;
 };
 
 export default FreeBotsPanel;
